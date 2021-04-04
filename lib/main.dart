@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:quiz_app/answer.dart';
 
 import './quiz.dart';
 import './result.dart';
@@ -22,21 +21,46 @@ class _MyAppState extends State<MyApp> {
   final _questions = const [
     {
       'questionText': 'What\'s your favourite color?',
-      'answers': ['Black', 'Red', 'Green', 'Pink']
+      'answers': [
+        {'text': 'Black', 'score': 10},
+        {'text': 'Red', 'score': 5},
+        {'text': 'Green', 'score': 3},
+        {'text': 'White', 'score': 1}
+      ]
     },
     {
       'questionText': 'What\'s your favourite animal?',
-      'answers': ['Rabbit', 'Snake', 'Elephant', 'Lion']
+      'answers': [
+        {'text': 'Rabbit', 'score': 3},
+        {'text': 'Snake', 'score': 11},
+        {'text': 'Elephant', 'score': 5},
+        {'text': 'Lion', 'score': 9}
+      ]
     },
     {
       'questionText': 'Who\'s your favourite instructor?',
-      'answers': ['Max', 'Kate', 'Betty', 'John']
+      'answers': [
+        {'text': 'Max', 'score': 1},
+        {'text': 'Max', 'score': 1},
+        {'text': 'Max', 'score': 1},
+        {'text': 'Max', 'score': 1}
+      ]
     },
   ];
 
   var _questionIndex = 0;
+  var _totalScore = 0;
 
-  void _answerQuestion() {
+  void _resetQuiz() {
+    setState(() {
+      _questionIndex = 0;
+      _totalScore = 0;
+    });
+  }
+
+  void _answerQuestion(int score) {
+    _totalScore += score;
+
     setState(() {
       _questionIndex = _questionIndex + 1;
     });
@@ -46,6 +70,7 @@ class _MyAppState extends State<MyApp> {
     }
 
     print(_questionIndex);
+    print(_totalScore);
   }
 
   @override
@@ -61,7 +86,7 @@ class _MyAppState extends State<MyApp> {
                 questionIndex: _questionIndex,
                 questions: _questions,
               )
-            : Result(),
+            : Result(_totalScore, _resetQuiz),
       ),
     );
   }
@@ -71,3 +96,8 @@ class _MyAppState extends State<MyApp> {
 //final - runtime constant
 //const - compiletime constant
 //ctr+alt+L - format code
+
+//BUTTONS:
+//RaisedButton -> ElevatedButton
+//FlatButton -> TextButton
+//OutlineButton -> OutlinedButton
